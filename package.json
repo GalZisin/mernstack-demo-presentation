@@ -1,0 +1,56 @@
+{
+    "name": "mern-app",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "start": "npm run prod",
+        "build": "npm-run-all clean transpile",
+        "server": "node dist-server/server.js",
+        "dev": "SET NODE_ENV=development&&npm-run-all build server",
+        "prod": "set NODE_ENV=production&&npm-run-all build server",
+        "transpile": "babel ./server --out-dir dist-server",
+        "clean": "rimraf dist-server",
+        "watch:dev": "nodemon",
+        "build-client": "cd client && npm run build",
+        "install-client": "cd client && npm install",
+        "client": "cd client && npm start",
+        "dev-concurrently": "concurrently -n 'server,client' -c 'red,green'  \"npm run watch:dev\" \"npm run client\"",
+        "heroku-postbuild": "npm run install-client && npm run build-client"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@babel/cli": "^7.10.5",
+        "@babel/core": "^7.10.5",
+        "@babel/preset-env": "^7.10.4",
+        "axios": "^0.19.2",
+        "concurrently": "^5.2.0",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "mongoose": "^5.9.25",
+        "morgan": "^1.10.0",
+        "nodemon": "^2.0.4",
+        "npm-run-all": "^4.1.5",
+        "rimraf": "^3.0.2"
+    },
+    "devDependencies": {},
+    "babel": {
+        "presets": [
+            "@babel/preset-env"
+        ]
+    },
+    "nodemonConfig": {
+        "exec": "npm run dev",
+        "watch": [
+            "server/*",
+            "client/*"
+        ],
+        "ignore": [
+            "**/__tests__/**",
+            "*.test.js",
+            "*.spec.js"
+        ]
+    }
+}
